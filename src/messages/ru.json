@@ -6,5 +6,9 @@
     "signOut": "Выйти",
     "about": "О нас",
     "appName": "Swagger Editor"
+  },
+  "Footer": {
+    "about": "О нас",
+    "appName": "Swagger Editor"
   }
 }
