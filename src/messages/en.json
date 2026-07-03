@@ -1,0 +1,10 @@
+{
+  "Header": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "history": "History",
+    "signOut": "Sign Out",
+    "about": "About",
+    "appName": "Swagger Editor"
+  }
+}

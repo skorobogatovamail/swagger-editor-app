@@ -1,0 +1,10 @@
+{
+  "Header": {
+    "signIn": "Войти",
+    "signUp": "Регистрация",
+    "history": "История",
+    "signOut": "Выйти",
+    "about": "О нас",
+    "appName": "Swagger Editor"
+  }
+}
