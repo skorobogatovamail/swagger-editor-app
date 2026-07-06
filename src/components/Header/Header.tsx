@@ -1,15 +1,33 @@
+'use client';
+
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { User } from '@supabase/supabase-js';
 import { SignOutButton } from '../Auth/SignOutButton';
+import { LanguageSwitcher } from './LanguageSwitcher';
+import { useEffect, useState } from 'react';
 
-export const Header = ({ user }: { user?: User }) => {
+export const Header = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
   const t = useTranslations('Header');
 
-  const isAuthenticated = !!user;
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <header className="w-full sticky top-0 border-b bg-white">
+    <header
+      className={`sticky top-0 z-50 w-full border-b transition-all duration-300 ${
+        isScrolled
+          ? 'border-zinc-200 bg-white/90 shadow-sm backdrop-blur'
+          : 'border-transparent bg-white'
+      }`}
+    >
       <nav className="flex justify-between items-center px-6 py-4 max-w-6xl mx-auto">
         <div className="flex items-center gap-4">
           <Link className="text-lg font-semibold text-zinc-950" href="/">
@@ -54,6 +72,7 @@ export const Header = ({ user }: { user?: User }) => {
             </>
           )}
         </div>
+        <LanguageSwitcher />
       </nav>
     </header>
   );
