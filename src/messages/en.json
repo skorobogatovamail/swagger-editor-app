@@ -39,5 +39,22 @@
       "passwordsMatch": "Passwords must match",
       "confirmPasswordRequired": "Confirm password is required"
     }
+  },
+  "About": {
+    "title": "About the Project",
+    "courseTitle": "RS School Course",
+    "courseDescription": "This application is created as part of the RS School React course. The task focuses on building a full-stack React application with authentication, OpenAPI editing, API testing, request history, analytics, internationalization, and SSR.",
+    "projectTitle": "Project",
+    "projectDescription": "Swagger Editor App combines a Swagger/OpenAPI editor, API documentation viewer, and REST client in one interface. Users can edit API specifications, inspect endpoints, execute requests through the server, and review request history.",
+    "teamTitle": "Team",
+    "memberName": "Elena Skorobogatova",
+    "memberRole": "Solo developer: architecture, UI, authentication, OpenAPI editor, REST client, history, analytics, tests, and deployment.",
+    "githubLabel": "GitHub profile",
+    "technologiesTitle": "Technologies",
+    "technologies": "Next.js App Router, React, TypeScript, Tailwind CSS, next-intl, Supabase, React Hook Form, Yup, Vitest, Vercel.",
+    "resourcesTitle": "Resources",
+    "rsSchool": "RS School",
+    "openApi": "OpenAPI Initiative",
+    "swaggerUi": "Swagger UI"
   }
 }
