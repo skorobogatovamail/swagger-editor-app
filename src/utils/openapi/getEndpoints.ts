@@ -210,7 +210,9 @@ export const getEndpoints = (schema: unknown): OpenApiEndpoint[] => {
     const pathParameters = normalizeParameters(pathItem.parameters);
 
     return Object.entries(pathItem)
-      .filter(([method]) => isOpenApiMethod(method))
+      .filter((entry): entry is [OpenApiMethod, unknown] =>
+        isOpenApiMethod(entry[0])
+      )
       .flatMap(([method, operation]) => {
         if (!isRecord(operation)) {
           return [];

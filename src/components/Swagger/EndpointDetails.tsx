@@ -1,3 +1,6 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
 import type {
   OpenApiEndpoint,
   OpenApiParameter,
@@ -19,9 +22,11 @@ const PARAMETER_GROUPS: ParameterLocation[] = [
 const ParameterList = ({
   title,
   parameters,
+  requiredLabel,
 }: {
   title: string;
   parameters: OpenApiParameter[];
+  requiredLabel: string;
 }) => {
   if (parameters.length === 0) {
     return null;
@@ -42,14 +47,16 @@ const ParameterList = ({
               </code>
               {parameter.required && (
                 <span className="rounded bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">
-                  required
+                  {requiredLabel}
                 </span>
               )}
             </div>
             {parameter.description && (
               <p className="mt-1 text-zinc-600">{parameter.description}</p>
             )}
-            {parameter.schema !== undefined && <JsonPreview value={parameter.schema} />}
+            {parameter.schema !== undefined && (
+              <JsonPreview value={parameter.schema} />
+            )}
           </li>
         ))}
       </ul>
@@ -58,6 +65,8 @@ const ParameterList = ({
 };
 
 export const EndpointDetails = ({ endpoint }: EndpointDetailsProps) => {
+  const t = useTranslations('SwaggerViewer');
+
   return (
     <div className="mt-4 flex flex-col gap-5">
       {endpoint.description && (
@@ -65,7 +74,9 @@ export const EndpointDetails = ({ endpoint }: EndpointDetailsProps) => {
       )}
 
       <section className="flex flex-col gap-4">
-        <h3 className="text-base font-semibold text-zinc-950">Parameters</h3>
+        <h3 className="text-base font-semibold text-zinc-950">
+          {t('parameters')}
+        </h3>
         {PARAMETER_GROUPS.some(
           (location) => endpoint.parametersByLocation[location].length > 0
         ) ? (
@@ -73,16 +84,19 @@ export const EndpointDetails = ({ endpoint }: EndpointDetailsProps) => {
             <ParameterList
               key={location}
               parameters={endpoint.parametersByLocation[location]}
-              title={`${location} parameters`}
+              requiredLabel={t('required')}
+              title={t('parametersGroup', { location })}
             />
           ))
         ) : (
-          <p className="text-sm text-zinc-500">No parameters.</p>
+          <p className="text-sm text-zinc-500">{t('noParameters')}</p>
         )}
       </section>
 
       <section>
-        <h3 className="text-base font-semibold text-zinc-950">Request body</h3>
+        <h3 className="text-base font-semibold text-zinc-950">
+          {t('requestBody')}
+        </h3>
         {endpoint.requestBody ? (
           <div className="mt-2 flex flex-col gap-3">
             {endpoint.requestBody.description && (
@@ -101,7 +115,7 @@ export const EndpointDetails = ({ endpoint }: EndpointDetailsProps) => {
                 {content.example !== undefined && (
                   <>
                     <p className="mt-2 text-xs font-medium uppercase text-zinc-500">
-                      Example
+                      {t('example')}
                     </p>
                     <JsonPreview value={content.example} />
                   </>
@@ -109,7 +123,7 @@ export const EndpointDetails = ({ endpoint }: EndpointDetailsProps) => {
                 {content.schema !== undefined && (
                   <>
                     <p className="mt-2 text-xs font-medium uppercase text-zinc-500">
-                      Schema
+                      {t('schema')}
                     </p>
                     <JsonPreview value={content.schema} />
                   </>
@@ -118,12 +132,14 @@ export const EndpointDetails = ({ endpoint }: EndpointDetailsProps) => {
             ))}
           </div>
         ) : (
-          <p className="mt-2 text-sm text-zinc-500">No request body.</p>
+          <p className="mt-2 text-sm text-zinc-500">{t('noRequestBody')}</p>
         )}
       </section>
 
       <section>
-        <h3 className="text-base font-semibold text-zinc-950">Responses</h3>
+        <h3 className="text-base font-semibold text-zinc-950">
+          {t('responses')}
+        </h3>
         {endpoint.responses.length > 0 ? (
           <div className="mt-2 flex flex-col gap-3">
             {endpoint.responses.map((response) => (
@@ -158,7 +174,7 @@ export const EndpointDetails = ({ endpoint }: EndpointDetailsProps) => {
             ))}
           </div>
         ) : (
-          <p className="mt-2 text-sm text-zinc-500">No responses.</p>
+          <p className="mt-2 text-sm text-zinc-500">{t('noResponses')}</p>
         )}
       </section>
     </div>

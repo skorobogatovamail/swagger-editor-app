@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import type {
   HeaderMap,
   ProxyRequestPayload,
   ProxyResponsePayload,
 } from '@/utils/openapi/request';
+import { createClient } from '@/utils/supabase/server';
+import { recordRequestHistory } from '@/utils/supabase/history';
 
 const ALLOWED_METHODS = [
   'get',
@@ -70,11 +73,22 @@ const parsePayload = async (
     throw new Error('Only HTTP and HTTPS URLs are supported');
   }
 
+  const endpoint =
+    isRecord(payload.endpoint) &&
+    typeof payload.endpoint.method === 'string' &&
+    typeof payload.endpoint.path === 'string'
+      ? {
+          method: payload.endpoint.method,
+          path: payload.endpoint.path,
+        }
+      : undefined;
+
   return {
     method: payload.method,
     url: url.toString(),
     headers: normalizeHeaders(payload.headers),
     body: typeof payload.body === 'string' ? payload.body : undefined,
+    endpoint,
   };
 };
 
@@ -96,6 +110,33 @@ const createErrorResponse = (
     },
     { status }
   );
+};
+
+const persistHistory = async (
+  payload: ProxyRequestPayload,
+  response: ProxyResponsePayload
+) => {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return;
+  }
+
+  await recordRequestHistory(supabase, user.id, {
+    method: payload.method.toUpperCase(),
+    url: payload.url,
+    endpointMethod: payload.endpoint?.method,
+    endpointPath: payload.endpoint?.path,
+    status: response.status,
+    durationMs: response.durationMs,
+    requestSize: response.requestSize,
+    responseSize: response.responseSize,
+    error: response.error,
+  });
 };
 
 export const POST = async (request: NextRequest) => {
@@ -125,8 +166,7 @@ export const POST = async (request: NextRequest) => {
     const responseBody = await response.text();
     const responseHeaders = Object.fromEntries(response.headers.entries());
     const durationMs = Math.round(performance.now() - startedAt);
-
-    return NextResponse.json<ProxyResponsePayload>({
+    const result: ProxyResponsePayload = {
       ok: true,
       status: response.status,
       statusText: response.statusText,
@@ -135,11 +175,28 @@ export const POST = async (request: NextRequest) => {
       durationMs,
       requestSize: encoder.encode(payload.body ?? '').byteLength,
       responseSize: encoder.encode(responseBody).byteLength,
-    });
+    };
+
+    await persistHistory(payload, result);
+
+    return NextResponse.json<ProxyResponsePayload>(result);
   } catch (error) {
-    return createErrorResponse(
-      error instanceof Error ? error.message : 'Unable to execute request',
-      502
-    );
+    const errorMessage =
+      error instanceof Error ? error.message : 'Unable to execute request';
+    const errorResponse: ProxyResponsePayload = {
+      ok: false,
+      status: 502,
+      statusText: 'Proxy Error',
+      headers: {},
+      body: '',
+      durationMs: Math.round(performance.now() - startedAt),
+      requestSize: encoder.encode(payload.body ?? '').byteLength,
+      responseSize: 0,
+      error: errorMessage,
+    };
+
+    await persistHistory(payload, errorResponse);
+
+    return createErrorResponse(errorMessage, 502);
   }
 };

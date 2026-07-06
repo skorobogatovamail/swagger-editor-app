@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { User } from '@supabase/supabase-js';
 import { SignOutButton } from '../Auth/SignOutButton';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { useEffect, useState } from 'react';

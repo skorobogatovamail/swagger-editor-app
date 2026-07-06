@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import type {
   OpenApiEndpoint,
   OpenApiParameter,
@@ -167,10 +168,15 @@ const buildRequest = (
     url,
     headers: buildHeaders(endpoint, parameterValues, requestBody),
     body: requestBody.trim() ? requestBody : undefined,
+    endpoint: {
+      method: endpoint.method,
+      path: endpoint.path,
+    },
   };
 };
 
 export const RequestForm = ({ endpoint }: RequestFormProps) => {
+  const t = useTranslations('SwaggerViewer');
   const [baseUrl, setBaseUrl] = useState(endpoint.serverUrls[0] ?? '');
   const [parameterValues, setParameterValues] = useState<ParameterValues>(() =>
     getInitialParameterValues(endpoint.parameters)
@@ -234,18 +240,20 @@ export const RequestForm = ({ endpoint }: RequestFormProps) => {
   const handleCopyCurl = async () => {
     try {
       await navigator.clipboard.writeText(curl);
-      setCopyState('Copied');
+      setCopyState(t('copied'));
     } catch {
-      setCopyState('Unable to copy');
+      setCopyState(t('copyFailed'));
     }
   };
 
   return (
     <section className="mt-5 rounded-xl border border-zinc-200 bg-zinc-50 p-4">
-      <h3 className="text-base font-semibold text-zinc-950">Try It Out</h3>
+      <h3 className="text-base font-semibold text-zinc-950">
+        {t('tryItOut')}
+      </h3>
 
       <label className="mt-3 flex flex-col gap-1 text-sm">
-        <span className="font-medium text-zinc-700">Base URL</span>
+        <span className="font-medium text-zinc-700">{t('baseUrl')}</span>
         <input
           value={baseUrl}
           onChange={(event) => setBaseUrl(event.target.value)}
@@ -264,7 +272,7 @@ export const RequestForm = ({ endpoint }: RequestFormProps) => {
         return (
           <fieldset key={location} className="mt-4 flex flex-col gap-2">
             <legend className="text-sm font-semibold capitalize text-zinc-950">
-              {location} parameters
+              {t('parametersGroup', { location })}
             </legend>
             {parameters.map((parameter) => (
               <label
@@ -290,7 +298,7 @@ export const RequestForm = ({ endpoint }: RequestFormProps) => {
 
       {endpoint.requestBody && (
         <label className="mt-4 flex flex-col gap-1 text-sm">
-          <span className="font-medium text-zinc-700">Request body</span>
+          <span className="font-medium text-zinc-700">{t('requestBody')}</span>
           <textarea
             value={requestBody}
             onChange={(event) => setRequestBody(event.target.value)}
@@ -306,14 +314,14 @@ export const RequestForm = ({ endpoint }: RequestFormProps) => {
           disabled={isExecuting || !baseUrl.trim()}
           className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {isExecuting ? 'Executing...' : 'Execute'}
+          {isExecuting ? t('executing') : t('execute')}
         </button>
         <button
           type="button"
           onClick={handleCopyCurl}
           className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-white"
         >
-          Generate cURL
+          {t('generateCurl')}
         </button>
         {copyState && <span className="text-sm text-zinc-500">{copyState}</span>}
       </div>
