@@ -56,5 +56,19 @@
     "rsSchool": "RS School",
     "openApi": "OpenAPI Initiative",
     "swaggerUi": "Swagger UI"
+  },
+  "SwaggerEditor": {
+    "title": "Swagger Editor",
+    "placeholder": "Paste OpenAPI schema in JSON or YAML format...",
+    "noFormat": "Paste a schema to detect format",
+    "detectedFormat": "Detected format: {format}",
+    "unsupportedFormat": "Unsupported schema format. Paste a JSON or YAML object.",
+    "validating": "Validating OpenAPI schema...",
+    "validSchema": "Valid OpenAPI schema",
+    "convert": "Convert",
+    "convertTo": "Convert to {format}",
+    "viewerTitle": "Swagger Viewer",
+    "viewerEmpty": "Valid endpoints will appear here after schema validation.",
+    "viewerReady": "Schema is valid. A full endpoint viewer will be built from this parsed schema."
   }
 }

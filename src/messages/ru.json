@@ -56,5 +56,19 @@
     "rsSchool": "RS School",
     "openApi": "OpenAPI Initiative",
     "swaggerUi": "Swagger UI"
+  },
+  "SwaggerEditor": {
+    "title": "Swagger Editor",
+    "placeholder": "Вставьте OpenAPI схему в формате JSON или YAML...",
+    "noFormat": "Вставьте схему, чтобы определить формат",
+    "detectedFormat": "Определен формат: {format}",
+    "unsupportedFormat": "Неподдерживаемый формат схемы. Вставьте JSON или YAML объект.",
+    "validating": "Проверяем OpenAPI схему...",
+    "validSchema": "Валидная OpenAPI схема",
+    "convert": "Конвертировать",
+    "convertTo": "Конвертировать в {format}",
+    "viewerTitle": "Swagger Viewer",
+    "viewerEmpty": "Валидные endpoints появятся здесь после проверки схемы.",
+    "viewerReady": "Схема валидна. Полный просмотр endpoints будет построен на основе этой схемы."
   }
 }
