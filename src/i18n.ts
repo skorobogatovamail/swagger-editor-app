@@ -1,14 +1,6 @@
 import { getRequestConfig } from 'next-intl/server';
 import { cookies } from 'next/headers';
-
-export type Locale = 'en' | 'ru';
-
-export const locales = ['en', 'ru'];
-const defaultLocale = 'en';
-
-const isLocale = (value: string): value is Locale => {
-  return locales.includes(value as Locale);
-};
+import { defaultLocale, isLocale } from './i18n-config';
 
 export default getRequestConfig(async () => {
   const cookieStore = await cookies();
@@ -18,9 +10,6 @@ export default getRequestConfig(async () => {
 
   return {
     locale,
-    messages: (await import(`./messages/${locale}.json`)).default as Record<
-      string,
-      string
-    >,
+    messages: (await import(`./messages/${locale}.json`)).default,
   };
 });
