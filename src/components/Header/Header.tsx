@@ -1,10 +1,12 @@
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import { User } from '@supabase/supabase-js';
+import { SignOutButton } from '../Auth/SignOutButton';
 
-export const Header = () => {
+export const Header = ({ user }: { user?: User }) => {
   const t = useTranslations('Header');
 
-  const isAuthenticated = false;
+  const isAuthenticated = !!user;
 
   return (
     <header className="w-full sticky top-0 border-b bg-white">
@@ -48,12 +50,7 @@ export const Header = () => {
               >
                 {t('history')}
               </Link>
-              <Link
-                className="rounded-lg px-4 py-2 text-sm font-medium transition-colors bg-blue-600 hover:bg-blue-700 text-white"
-                href="/sign-out"
-              >
-                {t('signOut')}
-              </Link>
+              <SignOutButton label={t('signOut')} />
             </>
           )}
         </div>

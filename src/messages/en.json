@@ -10,5 +10,34 @@
   "Footer": {
     "about": "About",
     "appName": "Swagger Editor"
+  },
+  "Auth": {
+    "signIn": "Sign In",
+    "signingIn": "Signing in...",
+    "signInSuccess": "Signed in successfully",
+    "signInError": "Failed to sign in",
+    "signUp": "Sign Up",
+    "signingUp": "Signing up...",
+    "signUpSuccess": "Signed up successfully",
+    "signUpError": "Failed to sign up",
+    "signOut": "Sign Out",
+    "signingOut": "Signing out...",
+    "signOutSuccess": "Signed out successfully",
+    "signOutError": "Failed to sign out",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "unknownError": "An unknown error occurred",
+    "validation": {
+      "emailRequired": "Email is required",
+      "invalidEmail": "Invalid email format",
+      "passwordRequired": "Password is required",
+      "passwordMin": "Password must be at least 8 characters",
+      "passwordLetter": "Password must contain at least one letter",
+      "passwordDigit": "Password must contain at least one digit",
+      "passwordSpecial": "Password must contain at least one special character",
+      "passwordsMatch": "Passwords must match",
+      "confirmPasswordRequired": "Confirm password is required"
+    }
   }
 }

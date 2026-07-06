@@ -10,5 +10,34 @@
   "Footer": {
     "about": "О нас",
     "appName": "Swagger Editor"
+  },
+  "Auth": {
+    "signIn": "Войти",
+    "signingIn": "Вход...",
+    "signInSuccess": "Вход успешно выполнен",
+    "signInError": "Ошибка входа",
+    "signUp": "Регистрация",
+    "signingUp": "Регистрация...",
+    "signUpSuccess": "Регистрация успешно выполнена",
+    "signUpError": "Ошибка регистрации",
+    "signOut": "Выйти",
+    "signingOut": "Выход...",
+    "signOutSuccess": "Выход успешно выполнен",
+    "signOutError": "Ошибка выхода",
+    "email": "Email",
+    "password": "Пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "unknownError": "Произошла неизвестная ошибка",
+    "validation": {
+      "emailRequired": "Email является обязательным",
+      "invalidEmail": "Некорректный формат email",
+      "passwordRequired": "Пароль является обязательным",
+      "passwordMin": "Пароль должен содержать минимум 8 символов",
+      "passwordLetter": "Пароль должен содержать минимум одну букву",
+      "passwordDigit": "Пароль должен содержать минимум одну цифру",
+      "passwordSpecial": "Пароль должен содержать минимум один специальный символ",
+      "passwordsMatch": "Пароли должны совпадать",
+      "confirmPasswordRequired": "Подтверждение пароля является обязательным"
+    }
   }
 }
