@@ -8,6 +8,7 @@ import {
 } from '@/utils/openapi/detectFormat';
 import { convertFormat } from '@/utils/openapi/convertFormat';
 import { validateSchema } from '@/utils/openapi/validateSchema';
+import { SwaggerViewer } from './SwaggerViewer';
 
 type ValidationState =
   | {
@@ -162,19 +163,7 @@ export const SwaggerEditor = () => {
         )}
       </div>
 
-      <aside className="flex min-h-[560px] flex-1 flex-col rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm">
-        <h2 className="text-lg font-semibold text-zinc-950">
-          {t('viewerTitle')}
-        </h2>
-        <p className="mt-2 text-sm text-zinc-500">
-          {schema ? t('viewerReady') : t('viewerEmpty')}
-        </p>
-        {schema && (
-          <pre className="mt-4 flex-1 overflow-auto rounded-xl bg-zinc-950 p-4 text-xs leading-5 text-zinc-100">
-            {JSON.stringify(schema, null, 2)}
-          </pre>
-        )}
-      </aside>
+      <SwaggerViewer schema={schema} />
     </section>
   );
 };
