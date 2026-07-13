@@ -2,7 +2,7 @@
 
 RS School React course project.
 
-**Deploy:** https://swagger-editor-fat39f6l8-elenas-projects-5b2aa5e6.vercel.app/
+**Deploy:** https://swagger-editor-app-xi.vercel.app/
 **Demo video:** https://youtube.com/...
 
 ## Features
